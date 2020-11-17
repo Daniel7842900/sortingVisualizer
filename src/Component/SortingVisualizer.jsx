@@ -9,6 +9,7 @@ class SortingVisualizer extends Component {
 
         this.state = {
             array: [],
+            animations: [],
         }
     }
     
@@ -18,18 +19,27 @@ class SortingVisualizer extends Component {
 
     resetArray() {
         const array = [];
-        for (let i = 0; i < 250; i++) {
+        for (let i = 0; i < 16; i++) {
             array.push(randomInt(5, 700));
         }
         this.setState({array});
     }
 
-    mergeSort() {
-        
-        const sorted = mergeSort.mergeSort(this.state.array);
+    animateMergeSort() {
+        // const originalArray = inputArray;
+        const array = this.state.array;
+        const animations = mergeSort.mergeSort(array);
+        // const animation = [];
 
-        console.log(sorted);
+        // console.log(originalArray);
+        // console.log(sorted);
+
+        // console.log(animations.comparison);
+        
+        this.setState({array});
     }
+
+    
 
     render() {
         const {array} = this.state;
@@ -41,7 +51,7 @@ class SortingVisualizer extends Component {
                     </div>
                 ))}
                 <button onClick={()=>this.resetArray()}>Generate Random Array</button>
-                <button onClick={()=>this.mergeSort()}>mergeSort</button>
+                <button onClick={()=>this.animateMergeSort()}>mergeSort</button>
             </div>
         )
     }
