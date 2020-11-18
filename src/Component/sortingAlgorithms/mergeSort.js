@@ -26,33 +26,42 @@ function merge(arr, sortingArr, lower, mid, higher, animations) {
 
   while (i < l && j < r) {
     const animation = {};
-    let n1 = lower+i;
-    let n2 = mid+j+1;
+    // let n1 = lower+i;
+    // let n2 = mid+j+1;
     // console.log("lower+i: " + n1, " mid+j+1: " + n2);
-    animation.comparison = [lower+i, mid+j+1];
-    animations.push(animation);
+    // animation.comparison = [lower+i, mid+j+1];
+    // animations.push(animation);
     // console.log(animation.comparison);
     // console.log("this is lower half: " + arr[n1]);
     // console.log("this is upper half: " + arr[n2]);
     if (arr[lower+i] <= arr[mid+j+1]) {
+      animation.comparison = [lower+i, mid+j+1];
+      animation.swap = [k, arr[lower+i]];
+      animations.push(animation);
       sortingArr[k] = arr[lower+i]; i++;
     } else {
+      animation.comparison = [lower+i, mid+j+1];
+      animation.swap = [k, arr[mid+j+1]];
+      animations.push(animation);
       sortingArr[k] = arr[mid+j+1]; j++;
     }
+
     k++;
     // console.log(animations);
   }
 
   while (j < r) {
     animations.push({
-      comparison: [mid+j+1, mid+j+1]
+      comparison: [mid+j+1, mid+j+1],
+      swap: [k, arr[mid+j+1]]
     })
     // console.log(animation.comparison);
     sortingArr[k] = arr[mid+j+1]; k++; j++;
   }
   while (i < l) {
     animations.push({
-      comparison: [lower+i, lower+i]
+      comparison: [lower+i, lower+i],
+      swap: [k, arr[lower+i]]
     })
     // console.log(animation.comparison);
     sortingArr[k] = arr[lower+i]; k++; i++;

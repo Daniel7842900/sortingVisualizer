@@ -28,39 +28,47 @@ class SortingVisualizer extends Component {
     animateMergeSort() {
         const array = this.state.array;
         const animations = mergeSort.mergeSort(array);
+        // Making newAnimations array because if we just use original animations array,
+        // when we setTimeout, index will be re-set every time.
         const newAnimations = [];
+
+        // console.log(animations);
 
         for(const animation of animations) {
             newAnimations.push(animation.comparison);
             newAnimations.push(animation.comparison);
+            // console.log(animation.swap);
+            newAnimations.push(animation.swap);
         }
 
-        console.log(newAnimations);
+        // console.log(newAnimations);
 
-        for(let i = 0; i < animations.length; i++) {
-            const {comparison} = animations[i];
+        for(let i = 0; i < newAnimations.length; i++) {
+            // const {comparison} = animations[i];
             // console.log(animations[i]);
             // console.log(comparison);
             const arrayBars = document.getElementsByClassName("array-bar");
-            const [barOneIdx, barTwoIdx] = newAnimations[i];
-            const barOneStyle = arrayBars[barOneIdx].style;
-            const barTwoStyle = arrayBars[barTwoIdx].style;
-            const color = i % 2 === 0 ? 'red' : 'blue';
-
-            setTimeout(()=>{ 
-                barOneStyle.backgroundColor = color;
-                barTwoStyle.backgroundColor = color;
-                // console.log(comparison[1]);
-                // console.log(comparison[0]);
-                // // console.log(arrayBars[comparison[1]]);
-                // // console.log(arrayBars[comparison[0]]);
-                // arrayBars[comparison[1]].className = "array-comparing-bar";
-                // arrayBars[comparison[0]].className = "array-comparing-bar";
-                // setTimeout(()=> {
-                //     const comparedBars = document.getElementsByClassName("array-comparing-bars");
-
-                // })
-            }, 3000 * i);
+            
+            const isComparing = i % 3 !== 2;
+            
+            if(isComparing) {
+                const [barOneIdx, barTwoIdx] = newAnimations[i];
+                const barOneStyle = arrayBars[barOneIdx].style;
+                const barTwoStyle = arrayBars[barTwoIdx].style;
+                const color = i % 3 === 0 ? 'red' : 'blue';
+                setTimeout(()=>{ 
+                    barOneStyle.backgroundColor = color;
+                    barTwoStyle.backgroundColor = color;
+                }, 10 * i); 
+            } else {
+                
+                setTimeout(()=>{ 
+                    const [barOneIdx, newHeight] = newAnimations[i];
+                    const barOneStyle = arrayBars[barOneIdx].style;
+                    barOneStyle.height = `${newHeight}px`;
+                }, 10 * i); 
+            }
+            
         }
 
         // console.log(animations);
