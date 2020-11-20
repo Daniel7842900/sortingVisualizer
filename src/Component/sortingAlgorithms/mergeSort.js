@@ -6,70 +6,62 @@ export function mergeSort(arr) {
   
   mergeHelp(arr, sortingArr, 0, arr.length - 1, animations);
 
-  // console.log(animations);
   return animations;
 }
 
-function mergeHelp(arr, sortingArr, lower, higher, animations) {
-  if (lower === higher) return;
-  if (lower < higher) {
-    var mid = Math.floor((lower + higher) / 2);
-    mergeHelp(arr, sortingArr, lower, mid, animations);
-    mergeHelp(arr, sortingArr, mid + 1, higher, animations);
-    merge(arr, sortingArr, lower, mid, higher, animations);
+function mergeHelp(arr, sortingArr, low, high, animations) {
+  if (low === high) return;
+  if (low < high) {
+    var mid = Math.floor((low + high) / 2);
+    mergeHelp(arr, sortingArr, low, mid, animations);
+    mergeHelp(arr, sortingArr, mid + 1, high, animations);
+    merge(arr, sortingArr, low, mid, high, animations);
   }
 }
   
-function merge(arr, sortingArr, lower, mid, higher, animations) {
-  // console.log("lower: " + lower + " mid: " + mid + " high: " + higher);
-  var l = mid-lower+1, r = higher-mid, k = lower,  i = 0, j = 0;
+function merge(arr, sortingArr, low, mid, high, animations) {
+  var l = mid-low+1, r = high-mid, k = low,  i = 0, j = 0;
 
+  // Comparing each bars, do merge until one of group reaches to its last bar.
+  // k represents starting index on each group whenever merge happens. i.e. 0, 2, 0, 4, ...
   while (i < l && j < r) {
     const animation = {};
-    // let n1 = lower+i;
-    // let n2 = mid+j+1;
-    // console.log("lower+i: " + n1, " mid+j+1: " + n2);
-    // animation.comparison = [lower+i, mid+j+1];
-    // animations.push(animation);
-    // console.log(animation.comparison);
-    // console.log("this is lower half: " + arr[n1]);
-    // console.log("this is upper half: " + arr[n2]);
-    if (arr[lower+i] <= arr[mid+j+1]) {
-      animation.comparison = [lower+i, mid+j+1];
-      animation.swap = [k, arr[lower+i]];
-      animations.push(animation);
-      sortingArr[k] = arr[lower+i]; i++;
+    
+    // Putting two comparing bars into animation.comparison.
+    animation.comparison = [low+i, mid+j+1];
+
+    if (arr[low+i] <= arr[mid+j+1]) {
+      animation.swap = [k, arr[low+i]];
+      sortingArr[k] = arr[low+i]; i++;
     } else {
-      animation.comparison = [lower+i, mid+j+1];
       animation.swap = [k, arr[mid+j+1]];
-      animations.push(animation);
       sortingArr[k] = arr[mid+j+1]; j++;
     }
 
+    // Pushing animation object to animations array.
+    animations.push(animation);
     k++;
-    // console.log(animations);
   }
 
+  // If first group reached the end, put rest of second group into the merging group.
   while (j < r) {
     animations.push({
       comparison: [mid+j+1, mid+j+1],
       swap: [k, arr[mid+j+1]]
     })
-    // console.log(animation.comparison);
     sortingArr[k] = arr[mid+j+1]; k++; j++;
   }
+
+  // If second group reached the end, put rest of first group into the merging group.
   while (i < l) {
     animations.push({
-      comparison: [lower+i, lower+i],
-      swap: [k, arr[lower+i]]
+      comparison: [low+i, low+i],
+      swap: [k, arr[low+i]]
     })
-    // console.log(animation.comparison);
-    sortingArr[k] = arr[lower+i]; k++; i++;
+    sortingArr[k] = arr[low+i]; k++; i++;
   }
-  //console.log(sortingArr, k, lower);
-  // console.log(animations);
 
-  for (var a = lower; a < k; a++) {
+  for (var a = low; a < k; a++) {
     arr[a] = sortingArr[a];
   } 
 }

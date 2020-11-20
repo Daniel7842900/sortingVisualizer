@@ -2,6 +2,7 @@ import React, {Component} from "react";
 
 import "./SortingVisualizer.css";
 import * as mergeSort from "./sortingAlgorithms/mergeSort.js";
+import * as quickSort from "./sortingAlgorithms/quickSort.js";
 
 class SortingVisualizer extends Component {
     constructor(props) {
@@ -28,27 +29,21 @@ class SortingVisualizer extends Component {
     animateMergeSort() {
         const array = this.state.array;
         const animations = mergeSort.mergeSort(array);
+
         // Making newAnimations array because if we just use original animations array,
         // when we setTimeout, index will be re-set every time.
         const newAnimations = [];
 
-        // console.log(animations);
-
+        // We are pushing comparison and swap arrays in order of showing comparison,
+        // reverting comparison, and swapping value.
         for(const animation of animations) {
             newAnimations.push(animation.comparison);
             newAnimations.push(animation.comparison);
-            // console.log(animation.swap);
             newAnimations.push(animation.swap);
         }
 
-        // console.log(newAnimations);
-
         for(let i = 0; i < newAnimations.length; i++) {
-            // const {comparison} = animations[i];
-            // console.log(animations[i]);
-            // console.log(comparison);
             const arrayBars = document.getElementsByClassName("array-bar");
-            
             const isComparing = i % 3 !== 2;
             
             if(isComparing) {
@@ -61,7 +56,8 @@ class SortingVisualizer extends Component {
                     barTwoStyle.backgroundColor = color;
                 }, 10 * i); 
             } else {
-                
+                // We are swaping bars here. We grab first bar and then update its height
+                // as shorter value.
                 setTimeout(()=>{ 
                     const [barOneIdx, newHeight] = newAnimations[i];
                     const barOneStyle = arrayBars[barOneIdx].style;
@@ -70,13 +66,13 @@ class SortingVisualizer extends Component {
             }
             
         }
-
-        // console.log(animations);
-        
-        // this.setState({array});
     }
 
-    
+    animateQuickSort() {
+        const array = this.state.array;
+        quickSort.quickSort(array);
+        this.setState({array});
+    }
 
     render() {
         const {array} = this.state;
@@ -88,15 +84,16 @@ class SortingVisualizer extends Component {
                     </div>
                 ))}
                 <button onClick={()=>this.resetArray()}>Generate Random Array</button>
-                <button onClick={()=>this.animateMergeSort()}>mergeSort</button>
+                <button onClick={()=>this.animateMergeSort()}>MergeSort</button>
+                <button onClick={()=>this.animateQuickSort()}>QuickSort</button>
             </div>
         )
     }
 }
 
-// Generate randome numbers between two numbers
+// Generate randome numbers between two numbers.
 function randomInt(min, max) {
-    // min and max are included
+    // min and max are included.
     return Math.floor(Math.random() * (max - min + 1)+ min);
 }
 
