@@ -70,7 +70,37 @@ class SortingVisualizer extends Component {
 
     animateQuickSort() {
         const array = this.state.array;
-        quickSort.quickSort(array);
+        const animations = quickSort.quickSort(array);
+        // console.log(animations);
+        const newAnimations = [];
+
+        for(const animation of animations) {
+            newAnimations.push(animation.comparison);
+            newAnimations.push(animation.comparison);
+            // console.log(animation.comparison);
+        }
+
+        // console.log(newAnimations);
+
+        for(let i = 0; i < newAnimations.length; i++) {
+            // console.log(newAnimations[i]);
+            const arrayBars = document.getElementsByClassName("array-bar");
+            // console.log(arrayBars);
+            const [pivotBarIdx, barOneIdx, barTwoIdx] = newAnimations[i];
+            console.log("pivot idx: " + pivotBarIdx);
+            // console.log("bar one idx: " + barOneIdx);
+            // console.log("bar two idx: " + barTwoIdx);
+
+            const pivotBarStyle = arrayBars[pivotBarIdx].style;
+            const barOneStyle = arrayBars[barOneIdx].style;
+            const barTwoStyle = arrayBars[barTwoIdx].style;
+            const color = i % 2 === 0 ? 'red' : 'blue';
+            setTimeout(() => {
+                pivotBarStyle.backgroundColor = 'yellow';
+                barOneStyle.backgroundColor = color;
+                barTwoStyle.backgroundColor = color;
+            }, 500 * i);
+        }
         this.setState({array});
     }
 
