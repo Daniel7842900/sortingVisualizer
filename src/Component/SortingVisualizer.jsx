@@ -71,13 +71,13 @@ class SortingVisualizer extends Component {
     animateQuickSort() {
         const array = this.state.array;
         const animations = quickSort.quickSort(array);
-        // console.log(animations);
         const newAnimations = [];
 
         for(const animation of animations) {
             newAnimations.push(animation.comparison);
             newAnimations.push(animation.comparison);
-            // console.log(animation.comparison);
+            newAnimations.push(animation.swap);
+            console.log(animation.swap);
         }
 
         // console.log(newAnimations);
@@ -86,22 +86,39 @@ class SortingVisualizer extends Component {
             // console.log(newAnimations[i]);
             const arrayBars = document.getElementsByClassName("array-bar");
             // console.log(arrayBars);
-            const [pivotBarIdx, barOneIdx, barTwoIdx] = newAnimations[i];
-            console.log("pivot idx: " + pivotBarIdx);
+            // console.log("pivot idx: " + pivotBarIdx);
             // console.log("bar one idx: " + barOneIdx);
             // console.log("bar two idx: " + barTwoIdx);
+            const isComparing = i % 3 !== 2;
 
-            const pivotBarStyle = arrayBars[pivotBarIdx].style;
-            const barOneStyle = arrayBars[barOneIdx].style;
-            const barTwoStyle = arrayBars[barTwoIdx].style;
-            const color = i % 2 === 0 ? 'red' : 'blue';
-            setTimeout(() => {
-                pivotBarStyle.backgroundColor = 'yellow';
-                barOneStyle.backgroundColor = color;
-                barTwoStyle.backgroundColor = color;
-            }, 500 * i);
+            if(isComparing) {
+                const [pivotBarIdx, barOneIdx, barTwoIdx] = newAnimations[i];
+                const pivotBarStyle = arrayBars[pivotBarIdx].style;
+                const barOneStyle = arrayBars[barOneIdx].style;
+                const barTwoStyle = arrayBars[barTwoIdx].style;
+                const color = i % 3 === 0 ? 'red' : 'blue';
+                // console.log("entering comparing...");
+                setTimeout(() => {
+                    pivotBarStyle.backgroundColor = 'yellow';
+                    barOneStyle.backgroundColor = color;
+                    barTwoStyle.backgroundColor = color;
+                }, 10 * i);
+            } else {
+                // console.log("entering swapping...");
+                setTimeout(() => {
+                    const [barOneIdx, barOneNewHeight, barTwoIdx, barTwoNewHeight] = newAnimations[i];
+                    // console.log("bar one idx: " + barOneIdx);
+                    // console.log("bar two idx: " + barTwoIdx);
+                    const barOneStyle = arrayBars[barOneIdx].style;
+                    const barTwoStyle = arrayBars[barTwoIdx].style;
+                    barOneStyle.height = `${barOneNewHeight}px`;
+                    barTwoStyle.height = `${barTwoNewHeight}px`;
+                }, 10 * i);
+            }
+
+            
         }
-        this.setState({array});
+        // this.setState({array});
     }
 
     render() {
