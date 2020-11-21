@@ -56,8 +56,8 @@ class SortingVisualizer extends Component {
                     barTwoStyle.backgroundColor = color;
                 }, 10 * i); 
             } else {
-                // We are swaping bars here. We grab first bar and then update its height
-                // as shorter value.
+
+                // We are swaping bars here. We grab first bar and then update its height as shorter value.
                 setTimeout(()=>{ 
                     const [barOneIdx, newHeight] = newAnimations[i];
                     const barOneStyle = arrayBars[barOneIdx].style;
@@ -77,18 +77,10 @@ class SortingVisualizer extends Component {
             newAnimations.push(animation.comparison);
             newAnimations.push(animation.comparison);
             newAnimations.push(animation.swap);
-            console.log(animation.swap);
         }
 
-        // console.log(newAnimations);
-
         for(let i = 0; i < newAnimations.length; i++) {
-            // console.log(newAnimations[i]);
             const arrayBars = document.getElementsByClassName("array-bar");
-            // console.log(arrayBars);
-            // console.log("pivot idx: " + pivotBarIdx);
-            // console.log("bar one idx: " + barOneIdx);
-            // console.log("bar two idx: " + barTwoIdx);
             const isComparing = i % 3 !== 2;
 
             if(isComparing) {
@@ -97,28 +89,21 @@ class SortingVisualizer extends Component {
                 const barOneStyle = arrayBars[barOneIdx].style;
                 const barTwoStyle = arrayBars[barTwoIdx].style;
                 const color = i % 3 === 0 ? 'red' : 'blue';
-                // console.log("entering comparing...");
                 setTimeout(() => {
                     pivotBarStyle.backgroundColor = 'yellow';
                     barOneStyle.backgroundColor = color;
                     barTwoStyle.backgroundColor = color;
                 }, 10 * i);
             } else {
-                // console.log("entering swapping...");
                 setTimeout(() => {
                     const [barOneIdx, barOneNewHeight, barTwoIdx, barTwoNewHeight] = newAnimations[i];
-                    // console.log("bar one idx: " + barOneIdx);
-                    // console.log("bar two idx: " + barTwoIdx);
                     const barOneStyle = arrayBars[barOneIdx].style;
                     const barTwoStyle = arrayBars[barTwoIdx].style;
                     barOneStyle.height = `${barOneNewHeight}px`;
                     barTwoStyle.height = `${barTwoNewHeight}px`;
                 }, 10 * i);
             }
-
-            
         }
-        // this.setState({array});
     }
 
     render() {
@@ -140,6 +125,7 @@ class SortingVisualizer extends Component {
 
 // Generate randome numbers between two numbers.
 function randomInt(min, max) {
+
     // min and max are included.
     return Math.floor(Math.random() * (max - min + 1)+ min);
 }
