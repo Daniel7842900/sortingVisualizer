@@ -3,6 +3,7 @@ import React, {Component} from "react";
 import "./SortingVisualizer.css";
 import * as mergeSort from "./sortingAlgorithms/mergeSort.js";
 import * as quickSort from "./sortingAlgorithms/quickSort.js";
+import * as heapSort from "./sortingAlgorithms/heapSort.js";
 
 class SortingVisualizer extends Component {
     constructor(props) {
@@ -106,6 +107,12 @@ class SortingVisualizer extends Component {
         }
     }
 
+    animateHeapSort() {
+        const array = this.state.array;
+        heapSort.heapSort(array);
+        this.setState(array);
+    }
+
     render() {
         const {array} = this.state;
 
@@ -118,6 +125,7 @@ class SortingVisualizer extends Component {
                 <button onClick={()=>this.resetArray()}>Generate Random Array</button>
                 <button onClick={()=>this.animateMergeSort()}>MergeSort</button>
                 <button onClick={()=>this.animateQuickSort()}>QuickSort</button>
+                <button onClick={()=>this.animateHeapSort()}>HeapSort</button>
             </div>
         )
     }

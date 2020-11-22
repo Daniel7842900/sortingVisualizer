@@ -59,11 +59,7 @@ function partition(arr, low, high, animations) {
             // Push animation object into animations array.
             animations.push(animation);
         }
-
-        
-
     }
-
 
     // After we loop through until j reaches right before the last element, we swap the pivot with arr[i].
     // This deals the case we compare and swap the pivot and the last point of index i after for loop.
@@ -73,11 +69,8 @@ function partition(arr, low, high, animations) {
     })
     swap(arr, i, high);
 
-
     // Return the index after the partition.
     return i;
-
-    
 }
 
 // swap function is for swaping arr[i] and arr[j].
