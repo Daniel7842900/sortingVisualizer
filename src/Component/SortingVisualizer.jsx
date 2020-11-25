@@ -109,8 +109,38 @@ class SortingVisualizer extends Component {
 
     animateHeapSort() {
         const array = this.state.array;
-        heapSort.heapSort(array);
-        this.setState(array);
+        const animations = heapSort.heapSort(array);
+        const newAnimations = [];
+
+        for(const animation of animations) {
+            newAnimations.push(animation.comparison);
+            newAnimations.push(animation.comparison);
+            newAnimations.push(animation.swap);
+        }
+
+        for(let i = 0; i < newAnimations.length; i++) {
+            const arrayBars = document.getElementsByClassName("array-bar");
+            const isComparing = i % 3 !== 2;
+
+            if(isComparing) {
+                const [barOneIdx, barTwoIdx] = newAnimations[i];
+                const barOneStyle = arrayBars[barOneIdx].style;
+                const barTwoStyle = arrayBars[barTwoIdx].style;
+                const color = i % 3 === 0 ? 'red' : 'blue';
+                setTimeout(() => {
+                    barOneStyle.backgroundColor = color;
+                    barTwoStyle.backgroundColor = color;
+                }, 10 * i);
+            } else {
+                setTimeout(() => {
+                    const [barOneIdx, barOneNewHeight, barTwoIdx, barTwoNewHeight] = newAnimations[i];
+                    const barOneStyle = arrayBars[barOneIdx].style;
+                    const barTwoStyle = arrayBars[barTwoIdx].style;
+                    barOneStyle.height = `${barOneNewHeight}px`;
+                    barTwoStyle.height = `${barTwoNewHeight}px`;
+                }, 10 * i);
+            }
+        }
     }
 
     render() {
