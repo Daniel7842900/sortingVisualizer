@@ -1,9 +1,11 @@
 import React, {Component} from "react";
 
+import 'bootstrap/dist/css/bootstrap.min.css';
 import "./SortingVisualizer.css";
 import * as mergeSort from "./sortingAlgorithms/mergeSort.js";
 import * as quickSort from "./sortingAlgorithms/quickSort.js";
 import * as heapSort from "./sortingAlgorithms/heapSort.js";
+import { Nav, Navbar, Button } from "react-bootstrap";
 
 class SortingVisualizer extends Component {
     constructor(props) {
@@ -11,7 +13,6 @@ class SortingVisualizer extends Component {
 
         this.state = {
             array: [],
-            animations: [],
         }
     }
     
@@ -21,8 +22,8 @@ class SortingVisualizer extends Component {
 
     resetArray() {
         const array = [];
-        for (let i = 0; i < 16; i++) {
-            array.push(randomInt(5, 700));
+        for (let i = 0; i < 280; i++) {
+            array.push(randomInt(5, 450));
         }
         this.setState({array});
     }
@@ -55,7 +56,7 @@ class SortingVisualizer extends Component {
                 setTimeout(()=>{ 
                     barOneStyle.backgroundColor = color;
                     barTwoStyle.backgroundColor = color;
-                }, 10 * i); 
+                }, 1 * i); 
             } else {
 
                 // We are swaping bars here. We grab first bar and then update its height as shorter value.
@@ -63,7 +64,7 @@ class SortingVisualizer extends Component {
                     const [barOneIdx, newHeight] = newAnimations[i];
                     const barOneStyle = arrayBars[barOneIdx].style;
                     barOneStyle.height = `${newHeight}px`;
-                }, 10 * i); 
+                }, 1 * i); 
             }
             
         }
@@ -148,14 +149,46 @@ class SortingVisualizer extends Component {
 
         return (
             <div class="array-container">
+                <Navbar bg="dark" expand="lg" fixed="top">
+                    <Navbar.Brand
+                        className="algo-btn">
+                            Sorting Visualizer
+                    </Navbar.Brand>
+                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                    <Navbar.Collapse id="basic-navbar-nav">
+                        <Nav className="mr-auto">
+                            <Button 
+                                className="algo-btn"
+                                variant="outline-success"
+                                onClick={()=>this.resetArray()}>
+                                    Generate Random Array
+                            </Button>
+                            <Button 
+                                className="algo-btn"
+                                variant="outline-success"
+                                onClick={()=>this.animateMergeSort()}>
+                                    MergeSort
+                            </Button>
+                            <Button 
+                                className="algo-btn"
+                                variant="outline-success"
+                                onClick={()=>this.animateQuickSort()}>
+                                    QuickSort
+                            </Button>
+                            <Button 
+                                className="algo-btn"
+                                variant="outline-success"
+                                onClick={()=>this.animateHeapSort()}>
+                                    HeapSort
+                            </Button>
+                            
+                        </Nav>
+                    </Navbar.Collapse>
+                </Navbar>
                 {array.map((value, idx) => (
                     <div className="array-bar" key={idx} style={{height: `${value}px`}}>
                     </div>
                 ))}
-                <button onClick={()=>this.resetArray()}>Generate Random Array</button>
-                <button onClick={()=>this.animateMergeSort()}>MergeSort</button>
-                <button onClick={()=>this.animateQuickSort()}>QuickSort</button>
-                <button onClick={()=>this.animateHeapSort()}>HeapSort</button>
             </div>
         )
     }

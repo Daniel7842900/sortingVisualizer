@@ -1,7 +1,8 @@
 .array-container {
-  position: absolute;
+  position: fixed;
   left: 10vw;
   right: 10vw;
+  bottom: 0;
 }
 
 .array-bar {
@@ -16,4 +17,9 @@
   background-color: red;
   display: inline-block;
   margin: 0 1px;
+}
+
+.algo-btn {
+  margin-left: 3em;
+  margin-right: 3em;
 }
