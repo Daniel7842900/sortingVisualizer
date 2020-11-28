@@ -36,13 +36,7 @@ class SortingVisualizer extends Component {
         // when we setTimeout, index will be re-set every time.
         const newAnimations = [];
 
-        // We are pushing comparison and swap arrays in order of showing comparison,
-        // reverting comparison, and swapping value.
-        for(const animation of animations) {
-            newAnimations.push(animation.comparison);
-            newAnimations.push(animation.comparison);
-            newAnimations.push(animation.swap);
-        }
+        this.createNewAnimation(newAnimations, animations);
 
         for(let i = 0; i < newAnimations.length; i++) {
             const arrayBars = document.getElementsByClassName("array-bar");
@@ -66,7 +60,6 @@ class SortingVisualizer extends Component {
                     barOneStyle.height = `${newHeight}px`;
                 }, 1 * i); 
             }
-            
         }
     }
 
@@ -75,11 +68,7 @@ class SortingVisualizer extends Component {
         const animations = quickSort.quickSort(array);
         const newAnimations = [];
 
-        for(const animation of animations) {
-            newAnimations.push(animation.comparison);
-            newAnimations.push(animation.comparison);
-            newAnimations.push(animation.swap);
-        }
+        this.createNewAnimation(newAnimations, animations);
 
         for(let i = 0; i < newAnimations.length; i++) {
             const arrayBars = document.getElementsByClassName("array-bar");
@@ -95,7 +84,7 @@ class SortingVisualizer extends Component {
                     pivotBarStyle.backgroundColor = 'yellow';
                     barOneStyle.backgroundColor = color;
                     barTwoStyle.backgroundColor = color;
-                }, 10 * i);
+                }, 1 * i);
             } else {
                 setTimeout(() => {
                     const [barOneIdx, barOneNewHeight, barTwoIdx, barTwoNewHeight] = newAnimations[i];
@@ -103,7 +92,7 @@ class SortingVisualizer extends Component {
                     const barTwoStyle = arrayBars[barTwoIdx].style;
                     barOneStyle.height = `${barOneNewHeight}px`;
                     barTwoStyle.height = `${barTwoNewHeight}px`;
-                }, 10 * i);
+                }, 1 * i);
             }
         }
     }
@@ -113,11 +102,7 @@ class SortingVisualizer extends Component {
         const animations = heapSort.heapSort(array);
         const newAnimations = [];
 
-        for(const animation of animations) {
-            newAnimations.push(animation.comparison);
-            newAnimations.push(animation.comparison);
-            newAnimations.push(animation.swap);
-        }
+        this.createNewAnimation(newAnimations, animations);
 
         for(let i = 0; i < newAnimations.length; i++) {
             const arrayBars = document.getElementsByClassName("array-bar");
@@ -131,7 +116,7 @@ class SortingVisualizer extends Component {
                 setTimeout(() => {
                     barOneStyle.backgroundColor = color;
                     barTwoStyle.backgroundColor = color;
-                }, 10 * i);
+                }, 1 * i);
             } else {
                 setTimeout(() => {
                     const [barOneIdx, barOneNewHeight, barTwoIdx, barTwoNewHeight] = newAnimations[i];
@@ -139,9 +124,21 @@ class SortingVisualizer extends Component {
                     const barTwoStyle = arrayBars[barTwoIdx].style;
                     barOneStyle.height = `${barOneNewHeight}px`;
                     barTwoStyle.height = `${barTwoNewHeight}px`;
-                }, 10 * i);
+                }, 1 * i);
             }
         }
+    }
+
+    createNewAnimation(newAnimations, animations) {
+
+        // We are pushing comparison and swap arrays in order of showing comparison,
+        // reverting comparison, and swapping value.
+        for(const animation of animations) {
+            newAnimations.push(animation.comparison);
+            newAnimations.push(animation.comparison);
+            newAnimations.push(animation.swap);
+        }
+        return newAnimations;
     }
 
     render() {
@@ -151,7 +148,8 @@ class SortingVisualizer extends Component {
             <div class="array-container">
                 <Navbar bg="dark" expand="lg" fixed="top">
                     <Navbar.Brand
-                        className="algo-btn">
+                        className="algo-btn"
+                        id="nav-brand">
                             Sorting Visualizer
                     </Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
